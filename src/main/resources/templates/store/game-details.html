@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${game.title} + ' - Steam Clone'">Game Details - Steam Clone</title>
+    <link rel="stylesheet" th:href="@{/css/store.css}">
+    <link rel="stylesheet" th:href="@{/css/game-details.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* Beautiful message styles */
+        .message-container {
+            margin: 20px 0;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .success-message {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: 2px solid #28a745;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+        
+        .already-owned-message {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+            border: 2px solid #f44336;
+            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+        }
+        
+        .message-icon {
+            font-size: 20px;
+        }
+        
+        .library-link {
+            color: #fff;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        
+        .library-link:hover {
+            color: #e3f2fd;
+        }
+        
+        .purchase-button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <header th:replace="fragments/header :: header"></header>
+    
+    <div class="game-details-container">
+        
+        <!-- Success Message -->
+        <div class="message-container success-message" th:if="${purchaseSuccess}">
+            <span>Success! Game successfully added to your library!</span>
+        </div>
+        
+        <!-- Already Owned Message -->
+        <div class="message-container already-owned-message" th:if="${alreadyOwned}">
+            <span>You already own this game! <a href="/library" class="library-link">Check your library</a></span>
+        </div>
+        
+        <div class="game-header">
+            <h1 th:text="${game.title}">Game Title</h1>
+            <div class="game-meta">
+                <span th:text="${'Developer: ' + game.developer}">Developer: Game Studio</span>
+                <span th:text="${'Publisher: ' + game.publisher}">Publisher: Game Publisher</span>
+                <span th:text="${'Release Date: ' + game.releaseDate}">Release Date: Jan 1, 2023</span>
+                <span th:if="${game.rating != null}" th:text="${'Rating: ' + game.rating}">Rating: 4.5/5</span>
+            </div>
+        </div>
+        
+        <div class="game-content">
+            <div class="game-media">
+                <img class="game-cover" th:src="${game.imageUrl}" alt="Game cover">
+            </div>
+            
+            <div class="game-info-panel">
+                <div class="game-description">
+                    <h2>About This Game</h2>
+                    <p th:text="${game.description}">Game description goes here...</p>
+                </div>
+                
+                <div class="game-categories" th:if="${game.categories != null && !game.categories.isEmpty()}">
+                    <h3>Categories</h3>
+                    <div class="category-tags">
+                        <span class="category-tag"
+                              th:each="category : ${game.categories}"
+                              th:text="${category.name}">
+                            Action
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="system-requirements" th:if="${game.systemRequirements != null}">
+                    <h3>System Requirements</h3>
+                    <pre th:text="${game.systemRequirements}">System requirements go here...</pre>
+                </div>
+                
+                <div class="purchase-panel">
+                    <div class="price-container">
+                        <div class="discount-badge" th:if="${game.discount != null && game.discount > 0}"
+                             th:text="${'-' + game.discount + '%'}">-75%</div>
+                        <div class="price-info">
+                            <span class="original-price" th:if="${game.discount != null && game.discount > 0}"
+                                  th:text="${'$' + game.price}">$50.00</span>
+                            <span class="discounted-price" th:if="${game.discount != null && game.discount > 0}"
+                                  th:text="${'$' + game.finalPrice}">$12.50</span>
+                            <span class="regular-price" th:unless="${game.discount != null && game.discount > 0}"
+                                  th:text="${'$' + game.price}">$50.00</span>
+                        </div>
+                    </div>
+                    
+                    <!-- FIXED: Always show "Purchase Game" button, let backend handle logic -->
+                    <form th:action="@{/store/{id}/purchase(id=${game.id})}" method="post">
+                        <button type="submit" class="purchase-button">Purchase Game</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

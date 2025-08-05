@@ -1,0 +1,26 @@
+@"
+# Application properties (sensitive data)
+src/main/resources/application.properties
+
+# Maven
+target/
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Build files
+*.class
+*.jar
+*.war
+"@ | Out-File -FilePath .gitignore -Encoding UTF8

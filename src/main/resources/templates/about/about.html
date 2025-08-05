@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Steam Clone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/store.css}">
+</head>
+<body>
+    <header th:replace="fragments/header :: header"></header>
+    
+    <main class="about-container">
+        <div class="about-hero">
+            <div class="about-hero-content">
+                <h1>About Steam Clone</h1>
+                <p>The ultimate platform for game discovery and distribution</p>
+            </div>
+        </div>
+        
+        <div class="about-section">
+            <div class="about-content">
+                <h2>Our Story</h2>
+                <p>Steam Clone is a demonstration project inspired by the popular Steam platform. Created as an educational exercise, this platform showcases modern web development techniques and practices.</p>
+                <p>Our goal is to provide a realistic simulation of the Steam experience, including game browsing, purchasing, and community features, all while demonstrating clean code practices and robust architecture.</p>
+            </div>
+            <div class="about-image">
+                <img src="/api/placeholder/600/400" alt="About Steam Clone">
+            </div>
+        </div>
+        
+        <div class="stats-section">
+            <div class="stat-card">
+                <i class="fas fa-gamepad fa-3x"></i>
+                <div class="stat-number">100+</div>
+                <div class="stat-label">Games Available</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-users fa-3x"></i>
+                <div class="stat-number">10K+</div>
+                <div class="stat-label">Active Users</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-download fa-3x"></i>
+                <div class="stat-number">50K+</div>
+                <div class="stat-label">Downloads</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-code fa-3x"></i>
+                <div class="stat-number">1000+</div>
+                <div class="stat-label">Commits</div>
+            </div>
+        </div>
+        
+        <div class="about-section reverse">
+            <div class="about-content">
+                <h2>Technology</h2>
+                <p>Steam Clone is built with modern technologies to ensure the best performance and user experience:</p>
+                <ul class="tech-list">
+                    <li><i class="fab fa-java"></i> Java Spring Boot for backend services</li>
+                    <li><i class="fab fa-html5"></i> HTML5 and CSS3 for responsive design</li>
+                    <li><i class="fas fa-database"></i> SQL database for data persistence</li>
+                    <li><i class="fab fa-js"></i> JavaScript for interactive elements</li>
+                    <li><i class="fas fa-shield-alt"></i> Spring Security for user authentication</li>
+                </ul>
+            </div>
+            <div class="about-image">
+                <img src="/api/placeholder/600/400" alt="Technology Stack">
+            </div>
+        </div>
+        
+        <div class="team-section">
+            <h2>Our Team</h2>
+            <div class="team-members">
+                <div class="team-member">
+                    <div class="member-avatar">
+                        <i class="fas fa-user-circle fa-5x"></i>
+                    </div>
+                    <div class="member-name">Your Name</div>
+                    <div class="member-role">Lead Developer</div>
+                    <div class="member-description">Creator of Steam Clone, responsible for architecture and implementation.</div>
+                </div>
+                
+                <!-- You can add more team members here as your project grows -->
+            </div>
+        </div>
+        
+        <div class="contact-section">
+            <h2>Contact Us</h2>
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <i class="fas fa-envelope fa-2x"></i>
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">info@steamclone.example</div>
+                </div>
+                <div class="contact-method">
+                    <i class="fab fa-github fa-2x"></i>
+                    <div class="contact-label">GitHub</div>
+                    <div class="contact-value">github.com/yourusername/steam-clone</div>
+                </div>
+                <div class="contact-method">
+                    <i class="fas fa-map-marker-alt fa-2x"></i>
+                    <div class="contact-label">Location</div>
+                    <div class="contact-value">Your City, Country</div>
+                </div>
+            </div>
+        </div>
+        
+
+    </main>
+    
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

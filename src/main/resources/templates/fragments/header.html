@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="fr">
+<head th:fragment="head">
+    <title>header</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+</head>
+<body>
+<header th:fragment="header" class="main-header">
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a th:href="@{/}" class="logo-link">
+                <img th:src="@{/images/header_logo.png}" alt="Steam Logo" class="logo">
+            </a>
+        </div>
+        
+        <div class="secondary-nav">
+            <ul class="nav-links">
+                <li><a th:href="@{/store}">STORE</a></li>
+                <li><a th:href="@{/library}">LIBRARY</a></li>
+                <li><a th:href="@{/community}">COMMUNITY</a></li>
+                <li><a th:href="@{/about}">ABOUT</a></li>
+            </ul>
+        </div>
+
+        <div class="navbar-actions">
+            <div class="user-menu">
+                <!-- FIXED: Show profile link when authenticated, login when not -->
+              <div sec:authorize="isAuthenticated()" class="user-actions">
+    <a th:href="@{/profile}" class="user-link">
+        <i class="fas fa-user"></i>
+        <span th:text="${#authentication.principal.username}">Username</span>
+    </a>
+    <a th:href="@{/logout}" class="btn-logout">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</div>
+
+                <div sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/login}" class="user-link">
+                        <i class="fas fa-user"></i>
+                        <span>Sign In</span>
+                    </a>
+                </div>
+            </div>
+            <div class="cart">
+                <a th:href="@{/cart}" class="cart-link">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+</header>
+</body>
+</html>

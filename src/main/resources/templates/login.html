@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Steam Clone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Background with image overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/images/games/GrKLtNhKPKYDEq4cLCYoz7.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.5;
+            z-index: -2;
+        }
+        
+        /* Dark overlay for better readability */
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(23, 26, 33, 0.8) 0%, 
+                rgba(30, 60, 114, 0.7) 50%, 
+                rgba(42, 82, 152, 0.6) 100%);
+            z-index: -1;
+        }
+        
+        .login-container {
+            background: linear-gradient(135deg, 
+                rgba(23, 26, 33, 0.95) 0%, 
+                rgba(23, 26, 33, 0.9) 100%);
+            padding: 40px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.8),
+                0 0 0 1px rgba(102, 192, 244, 0.2);
+            backdrop-filter: blur(15px);
+            position: relative;
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .steam-logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        
+        .steam-logo h1 {
+            color: #66c0f4;
+            font-size: 36px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-shadow: 
+                0 0 20px rgba(102, 192, 244, 0.6),
+                0 0 40px rgba(102, 192, 244, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 
+                    0 0 20px rgba(102, 192, 244, 0.6),
+                    0 0 40px rgba(102, 192, 244, 0.3);
+            }
+            to {
+                text-shadow: 
+                    0 0 25px rgba(102, 192, 244, 0.8),
+                    0 0 50px rgba(102, 192, 244, 0.4);
+            }
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            color: #c6d4df;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            background: linear-gradient(145deg, 
+                rgba(255, 255, 255, 0.08) 0%, 
+                rgba(255, 255, 255, 0.12) 100%);
+            border: 1px solid rgba(102, 192, 244, 0.3);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #66c0f4;
+            background: linear-gradient(145deg, 
+                rgba(255, 255, 255, 0.15) 0%, 
+                rgba(255, 255, 255, 0.2) 100%);
+            box-shadow: 
+                0 0 0 3px rgba(102, 192, 244, 0.3), 
+                inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .login-button {
+            background: linear-gradient(90deg, #75b022 0%, #588a1b 100%);
+            color: white;
+            border: none;
+            padding: 18px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 0 6px 20px rgba(117, 176, 34, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .login-button:hover {
+            background: linear-gradient(90deg, #83c72a 0%, #6ba120 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(117, 176, 34, 0.5);
+        }
+        
+        .login-button:hover::before {
+            left: 100%;
+        }
+        
+        .login-button:active {
+            transform: translateY(-1px);
+        }
+        
+        .error-message {
+            background: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            text-align: center;
+            font-size: 14px;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .success-message {
+            background: rgba(81, 207, 102, 0.15);
+            color: #51cf66;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(81, 207, 102, 0.3);
+            text-align: center;
+            font-size: 14px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .register-link a {
+            color: #66c0f4;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .register-link a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 50%;
+            background-color: #66c0f4;
+            transition: all 0.3s ease;
+        }
+        
+        .register-link a:hover {
+            color: #8ed0ff;
+        }
+        
+        .register-link a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #c6d4df;
+            font-size: 14px;
+        }
+        
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #66c0f4;
+            cursor: pointer;
+        }
+        
+        .forgot-password {
+            text-align: right;
+            margin-top: 15px;
+        }
+        
+        .forgot-password a {
+            color: #66c0f4;
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.3s ease;
+        }
+        
+        .forgot-password a:hover {
+            color: #8ed0ff;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 20px;
+                padding: 30px 25px;
+            }
+            
+            .steam-logo h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="steam-logo">
+            <h1>STEAM CLONE</h1>
+        </div>
+        
+        <!-- Error Message -->
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+        
+        <!-- Success Message -->
+        <div th:if="${success}" class="success-message" th:text="${success}"></div>
+        
+        <!-- Login Form -->
+        <form class="login-form" th:action="@{/login}" method="post">
+            <div class="form-group">
+                <label for="username">Username or Email</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username or email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            
+            <div class="remember-me">
+                <input type="checkbox" id="remember" name="remember-me">
+                <label for="remember">Remember me</label>
+            </div>
+            
+            <button type="submit" class="login-button">Sign In</button>
+            
+            <div class="forgot-password">
+                <a href="#">Forgot your password?</a>
+            </div>
+        </form>
+        
+        <div class="register-link">
+            <p>New to Steam Clone? <a th:href="@{/register}">Create a free account</a></p>
+            <p style="margin-top: 15px; font-size: 12px; color: #8f98a0;">Join millions of players in the ultimate gaming experience</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+    <head>
+        <title>footer</title>
+        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
+            <!-- <link rel="stylesheet" th:href="@{/css/all.min.css}"> -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+<body>
+<footer th:fragment="footer" class="main-footer" style="margin-left: 50px;">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>About Steam Clone</h3>
+            <ul>
+                <li><a th:href="@{/about}">About Us</a></li>
+                <li><a th:href="@{/careers}">Careers</a></li>
+                <li><a th:href="@{/developers}">Developer Resources</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Help</h3>
+            <ul>
+                <li><a th:href="@{/support}">Customer Service</a></li>
+                <li><a th:href="@{/faq}">FAQs</a></li>
+                <li><a th:href="@{/refunds}">Refunds</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Legal</h3>
+            <ul>
+                <li><a th:href="@{/privacy}">Privacy Policy</a></li>
+                <li><a th:href="@{/terms}">Terms of Service</a></li>
+                <li><a th:href="@{/legal}">Legal</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section social">
+            <h3>Connect With Us</h3>
+            <div class="social-icons">
+                <ul>
+   <li><a th:href="@{https://twitter.com}" target="_blank" >Twitter</a></li> 
+   <li> <a th:href="@{https://facebook.com}" target="_blank" >Facebook</a></li> 
+   <li><a th:href="@{https://instagram.com}" target="_blank" >Instagram</a></li> 
+   <li><a th:href="@{https://youtube.com}" target="_blank" >YouTube</a></li> 
+</ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2025 Steam Clone. All rights reserved.</p>
+        <p class="disclaimer">Steam Clone is not affiliated with Valve or Steam. This is a demo project.</p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart - Steam Clone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/store.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+    <header th:replace="fragments/header :: header"></header>
+    
+    <div class="container">
+        <div class="cart-container">
+            <h1>Your Shopping Cart</h1>
+            
+            <!-- ENHANCED: Beautiful Flash Messages -->
+            <div th:if="${success}" class="alert alert-success alert-dismissible" role="alert">
+                <i class="fas fa-check-circle"></i>
+                <span th:text="${success}"></span>
+                <button type="button" class="btn-close" onclick="this.parentElement.style.display='none'">×</button>
+            </div>
+
+            <div th:if="${warning}" class="alert alert-warning alert-dismissible" role="alert">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span th:text="${warning}"></span>
+                <button type="button" class="btn-close" onclick="this.parentElement.style.display='none'">×</button>
+            </div>
+
+            <div th:if="${error}" class="alert alert-danger alert-dismissible" role="alert">
+                <i class="fas fa-times-circle"></i>
+                <span th:text="${error}"></span>
+                <button type="button" class="btn-close" onclick="this.parentElement.style.display='none'">×</button>
+            </div>
+            
+            <div th:if="${cartGames.isEmpty()}" class="empty-cart">
+                <p>Your cart is empty.</p>
+                <a th:href="@{/store}" class="continue-shopping">Continue Shopping</a>
+            </div>
+            
+            <div th:unless="${cartGames.isEmpty()}" class="cart-items">
+                <div class="cart-item" th:each="game : ${cartGames}">
+                    <div class="cart-item-image">
+                        <img th:src="${game.imageUrl}" alt="Game cover">
+                    </div>
+                    <div class="cart-item-info">
+                        <h3 th:text="${game.title}">Game Title</h3>
+                        <p class="cart-item-price" th:text="${'$' + game.finalPrice}">$12.50</p>
+                    </div>
+                    <div class="cart-item-actions">
+                        <a th:href="@{'/cart/remove/' + ${game.id}}" class="remove-button">Remove</a>
+                    </div>
+                </div>
+                
+                <div class="cart-summary">
+                    <div class="cart-total">
+                        <span>Total:</span>
+                        <span class="total-price" th:text="${'$' + #numbers.formatDecimal(total, 1, 2)}">$25.00</span>
+                    </div>
+                    
+                    <!-- FIXED: Changed action to match your PurchaseController -->
+                    <form th:action="@{/purchase/checkout}" method="post">
+                        <button type="submit" class="checkout-button">Complete Purchase</button>
+                    </form>
+                    
+                    <a th:href="@{/store}" class="continue-shopping">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

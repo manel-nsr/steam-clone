@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Library - Steam Clone</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/store.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+    <header th:replace="fragments/header :: header"></header>
+    
+    <div class="container">
+        <div class="library-container">
+            <h1>My Game Library</h1>
+            
+            <div th:if="${#lists.isEmpty(games)}" class="empty-library">
+                <p>Your library is empty. Purchase some games to get started!</p>
+                <a th:href="@{/store}" class="browse-store">Browse Store</a>
+            </div>
+            
+            <div th:unless="${#lists.isEmpty(games)}" class="library-grid">
+                <div class="game-card" th:each="game : ${games}">
+                    <div class="game-cover">
+                        <img th:src="${game.imageUrl}" alt="Game cover">
+                    </div>
+                    <div class="game-info">
+                        <h3 th:text="${game.title}">Game Title</h3>
+                        <div class="game-meta">
+                            <th:block th:if="${game.categories != null}">
+                                <span th:each="category, categoryStat : ${game.categories}" 
+                                      th:text="${category.name + (categoryStat.last ? '' : ', ')}">Action</span>
+                            </th:block>
+                            
+                            <span th:if="${game.categories == null}" th:text="${game.category}">Action</span>
+                        </div>
+                        <div class="game-actions">
+                            <a href="#" class="play-button">Play Now</a>
+                            <a th:href="@{'/store/' + ${game.id}}" class="details-button">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

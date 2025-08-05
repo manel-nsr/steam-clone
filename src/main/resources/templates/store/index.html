@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steam Clone - Game Store</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/store.css}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+</head>
+<body>
+    <header th:replace="fragments/header :: header"></header>
+    
+    <main class="store-container">
+        <div class="sidebar">
+            <div class="search-box">
+                <form th:action="@{/store/search}" method="get">
+                    <input type="text" name="title" th:value="${searchTitle}" placeholder="Search games...">
+                    <button type="submit" class="search-button">Search</button>
+                </form>
+            </div>
+            
+            <div class="categories">
+                <h3>Categories</h3>
+                <ul>
+                    <li>
+                        <a th:href="@{/store}" th:classappend="${selectedCategoryId == null ? 'active' : ''}">All Games</a>
+                    </li>
+                    <li th:each="category : ${categories}">
+                            <a th:href="@{/store/category/{id}(id=${category.id})}"   
+                                th:text="${category.name}"
+                            th:classappend="${selectedCategoryId != null && selectedCategoryId == category.id ? 'active' : ''}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="game-grid">
+            <div th:if="${games.empty}" class="no-games">
+                <p>No games found matching your criteria.</p>
+            </div>
+            
+            <div th:each="game : ${games}" class="game-card">
+                <a th:href="@{/store/{id}(id=${game.id})}">
+                    <div class="game-image">
+                        <img th:src="${game.imageUrl}" th:alt="${game.title}" onerror="this.src='/images/default-game.jpg'">
+                    </div>
+                    <div class="game-info">
+                        <h3 th:text="${game.title}">Game Title</h3>
+                        <div class="game-categories">
+                            <span th:each="category, iterStat : ${game.categories}" class="category-tag">
+                                <span th:text="${category.name}">Category</span>
+                                <span th:if="${!iterStat.last}">, </span>
+                            </span>
+                        </div>
+                        <div class="game-price" th:if="${game.discount > 0}">
+                            <span class="original-price" th:text="'$' + ${game.price}">$59.99</span>
+                            <span class="discount-badge" th:text="'-' + ${game.discount} + '%'">-20%</span>
+                            <span class="discounted-price" th:text="'$' + ${game.discountedPrice}">$47.99</span>
+                        </div>
+                        <div class="game-price" th:unless="${game.discount > 0}">
+                            <span class="regular-price" th:text="'$' + ${game.price}">$59.99</span>
+                        </div>
+                    </div>
+                </a>
+
+                 <form th:action="@{/cart/add}" method="post" class="add-to-cart-form">
+        <input type="hidden" name="gameId" th:value="${game.id}" />
+        <button type="submit"> Add to Cart</button>
+    </form>
+
+            </div>
+        </div>
+    </main>
+    
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html> 
